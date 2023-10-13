@@ -1,0 +1,97 @@
+﻿@using EntityLayer.Concrete
+@model List<Doctor>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<body class="hold-transition sidebar-mini">
+    <!-- /.navbar -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Doctors</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <a href="/AdminDoctor/IndexInTableFormat" class="btn btn-info">Show In Table</a>
+        <!-- Default box -->
+        <a href="/AdminDoctor/AddDoctor" class="btn btn-info">Add New Doctor</a>
+
+        <div class="card card-solid">
+            <div class="card-body pb-0">
+                <div class="row d-flex align-items-stretch">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                            <div class="card bg-light">
+                                <div class="card-header text-muted border-bottom-0">
+                                    <h2>@item.Department.departmentName Department</h2>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h2 class="lead"><b>@item.doctorPreName @item.doctorLastName</b></h2>
+                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-birthday-cake"></i></span>Birth Date: @item.birthDate.Day.@item.birthDate.Month.@item.birthDate.Year</li>
+                                                <li class="small">
+                                                    <span class="fa-li"><i class="fas fa-lg fa-calendar-alt"></i></span>
+                                                    @{
+                                                        DateTime currentDate = DateTime.Now;
+                                                        DateTime birthDate = item.birthDate;
+                                                        int age = currentDate.Year - birthDate.Year;
+                                                        if (currentDate.Month < birthDate.Month || (currentDate.Month == birthDate.Month && currentDate.Day < birthDate.Day))
+                                                        {
+                                                            age--;
+                                                        }
+                                                        
+                                                    }
+                                                    Age: @age
+
+
+
+                                                </li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-id-card"></i></span>Soc. Sec. No: @item.socSecNo</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone Number: @item.doctorPhoneNo</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-mail-bulk"></i></span> Email: @item.doctorEmail</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-dollar-sign"></i></span> Salary: @item.salary</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <img src="~/AdminLTE-3.0.4/dist/img/doctor-assistant-icon.png" alt="" class="img-circle img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <a href="/AdminDoctor/DeleteDoctor/@item.doctorID" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-eraser"> Delete Doctor</i>
+                                        </a>
+                                        <a href="/AdminDoctor/UpdateDoctor/@item.doctorID" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-pen"></i> Update Doctor
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</body>
+</html>
+
+

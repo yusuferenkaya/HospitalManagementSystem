@@ -1,0 +1,25 @@
+﻿@model EntityLayer.Concrete.Stock
+@{
+    ViewBag.Title = "UpdateStock";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Update Stock</h3>
+
+@using (Html.BeginForm("UpdateStock", "AdminStock", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.stockID)
+<div class="form-group">
+    @Html.Label("Stock Name")
+    @Html.TextBoxFor(x => x.stockName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Stock name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.stockName)
+    <br />
+
+    @Html.Label("Stock Amount")
+    @Html.TextBoxFor(x => x.stockAmount, new { @class = "form-control", @type = "number", @min = "0", @required = "required" })
+    @Html.ValidationMessageFor(x => x.stockAmount)
+
+    <br />
+    <button class="btn btn-success">Update</button>
+</div>
+}

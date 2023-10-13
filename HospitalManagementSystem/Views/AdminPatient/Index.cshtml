@@ -1,0 +1,73 @@
+﻿@using EntityLayer.Concrete
+@model List<Patient>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<body class="hold-transition sidebar-mini">
+    <!-- /.navbar -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Patients</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <a href="/AdminPatient/IndexInTableFormat" class="btn btn-info">Show In Table</a>
+        <!-- Default box -->
+        <div class="card card-solid">
+            <div class="card-body pb-0">
+                <div class="row d-flex align-items-stretch">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                            <div class="card bg-light">
+                                <div class="card-header text-muted border-bottom-0">
+                                    <h2>@item.patientPreName @item.patientLastName</h2>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-birthday-cake"></i></span>Birth Date: @item.patientBirthDate.Day.@item.patientBirthDate.Month.@item.patientBirthDate.Year</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-id-card"></i></span>Soc. Sec. No: @item.patientSocSecNo</li>
+                                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-mail-bulk"></i></span> Email: @item.User.userEmail</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <img src="~/AdminLTE-3.0.4/dist/img/patient.png" alt="" class="img-circle img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <a href="/AdminPatient/DeletePatient/@item.patientID" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-eraser"> Delete Patient</i>
+                                        </a>
+                                        <a href="/AdminPatient/UpdatePatient/@item.patientID" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-pen"></i> Update Patient
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</body>
+</html>
+
+@*<a href="/AdminPatient/AddPatient" class="btn btn-info">Add New Patient</a>*@
+

@@ -1,0 +1,51 @@
+﻿@model EntityLayer.Concrete.Patient
+@{
+    ViewBag.Title = "UpdatePatient";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Update Patient</h3>
+
+<br />
+
+@using (@Html.BeginForm("UpdatePatient", "AdminPatient", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.patientBirthDate)
+    @Html.HiddenFor(x => x.patientID)
+    @Html.HiddenFor(x => x.userID)
+    <form onsubmit="return validateForm()">
+        @Html.Label("Pre Name")
+        @Html.TextBoxFor(x => x.patientPreName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Pre name can only contain letters", @required = "required" })
+        @Html.ValidationMessageFor(x => x.patientPreName)
+
+        @Html.Label("Last Name")
+        @Html.TextBoxFor(x => x.patientLastName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Last Name can only contain letters", @required = "required" })
+        @Html.ValidationMessageFor(x => x.patientLastName)
+        <br />
+        <label for="socSecNo">Social Security Number:</label><br>
+        <input type="text" name="patientSocSecNo" id="socSecNo" title="The social security number must be 9 digits! Please enter a 9 digit number." pattern="[0-9]{9}" required><br>
+        <br />
+
+        <button class="btn btn-info">Submit</button>
+    </form>
+
+}
+
+<script>
+    function validateForm() {
+        var socSecNo = document.getElementById('socSecNo').value;
+        if (socSecNo == '') {
+            alert('Social security number field cannot be left blank!');
+            return false;
+        }
+        if (!/^\d{9}$/.test(socSecNo)) {
+            alert('The social security number must be 9 digits! Please enter a 9 digit number.');
+            return false;
+
+        }
+        return true;
+    }
+
+</script>

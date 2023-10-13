@@ -1,0 +1,29 @@
+﻿@model List<EntityLayer.Concrete.Stock>
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.4.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+<h2>Stocks</h2>
+<br />
+<div class="code-cut">
+    @(Html.Grid(Model).Named("Stocks").Columns(c =>
+{
+    c.Add(model => model.stockID).Titled("Stock ID").Filterable(true).Sortable(true);
+    c.Add(model => model.stockName).Titled("Stock Name").Filterable(true).Sortable(true);
+    c.Add(model => model.stockAmount).Titled("Stock Number").Filterable(true).Sortable(true);
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Delete", "DeleteStock", new { id = x.stockID }));
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Update", "UpdateStock", new { id = x.stockID }));
+}).WithPaging(10).EmptyText("No data found")
+
+)
+
+
+</div>
+<a href="/AdminStock/AddStock" class="btn btn-info">Add New Stock</a>

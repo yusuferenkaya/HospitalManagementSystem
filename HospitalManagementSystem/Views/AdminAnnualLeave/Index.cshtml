@@ -1,0 +1,36 @@
+﻿@model List<EntityLayer.Concrete.AnnualLeave>
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.4.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+
+@if (User.IsInRole("1"))
+{
+    <h3>
+        Annual Leaves
+    </h3>
+    <br />
+    <div class="code-cut">
+        @(Html.Grid(Model).Named("AnnualLeaves").Columns(c =>
+    {
+        c.Add(model => model.annualLeaveID).Titled("AnnualLeave ID").Filterable(true).Sortable(true);
+        c.Add(model => model.startDate).Titled("Start Date").Filterable(true).Sortable(true);
+        c.Add(model => model.finishDate).Titled("Finish Date").Filterable(true).Sortable(true);
+        c.Add(model => model.Doctor.doctorPreName).Titled("Doctor Prename").Filterable(true).Sortable(true);
+        c.Add(model => model.Doctor.doctorLastName).Titled("Doctor Lastname").Filterable(true).Sortable(true);
+        c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Delete", "DeleteAnnualLeave", new { id = x.annualLeaveID }));
+        c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Update", "UpdateAnnualLeave", new { id = x.annualLeaveID }));
+    }).WithPaging(10).EmptyText("No data found")
+
+)
+
+
+    </div>
+}

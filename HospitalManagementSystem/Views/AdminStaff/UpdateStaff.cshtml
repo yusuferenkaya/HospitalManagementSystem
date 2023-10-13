@@ -1,0 +1,60 @@
+﻿@model EntityLayer.Concrete.Staff
+@{
+    ViewBag.Title = "UpdateStaff";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Update Staff</h3>
+
+<br />
+
+@using (@Html.BeginForm("UpdateStaff", "AdminStaff", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.staffID)
+    <form onsubmit="return validateForm()">
+        @Html.Label("Pre Name")
+        @Html.TextBoxFor(x => x.staffPreName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Pre name can only contain letters", @required = "required" })
+        @Html.ValidationMessageFor(x => x.staffPreName)
+        <br />
+
+        @Html.Label("Last Name")
+        @Html.TextBoxFor(x => x.staffLastName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Last name can only contain letters", @required = "required" })
+        @Html.ValidationMessageFor(x => x.staffLastName)
+        <br />
+        @Html.Label("Salary")
+        @Html.TextBoxFor(x => x.staffSalary, new { @class = "form-control", @type = "number", @min = "0", @required = "required" })
+        @Html.ValidationMessageFor(x => x.staffSalary)
+        <br />
+        @Html.Label("Task")
+        @Html.TextBoxFor(x => x.staffTask, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Task name can only contain letters", @required = "required" })
+        @Html.ValidationMessageFor(x => x.staffTask)
+        <br />
+
+        <label for="stafSocSecNo">Social Security Number:</label><br>
+        <input type="text" name="stafSocSecNo" id="stafSocSecNo" title="The social security number must be 9 digits! Please enter a 9 digit number." pattern="[0-9]{9}" required><br>
+        <br />
+
+        <button class="btn btn-info">Submit</button>
+    </form>
+}
+
+
+
+<script>
+
+    function validateForm() {
+        var socSecNo = document.getElementById('stafSocSecNo').value;
+        if (socSecNo == '') {
+            alert('Social security number field cannot be left blank!');
+            return false;
+        }
+        if (!/^\d{9}$/.test(socSecNo)) {
+            alert('The social security number must be 9 digits! Please enter a 9 digit number.');
+            return false;
+
+        }
+        return true;
+    }
+</script>

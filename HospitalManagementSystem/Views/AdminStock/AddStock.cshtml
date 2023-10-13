@@ -1,0 +1,31 @@
+﻿@model EntityLayer.Concrete.Stock
+@{
+    ViewBag.Title = "AddStock";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Add New Stock</h3>
+
+<br />
+
+@using (@Html.BeginForm("AddStock", "AdminStock", FormMethod.Post))
+{
+
+<div class="form-group">
+    @Html.Label("Stock Name")
+    @Html.TextBoxFor(x => x.stockName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Stock name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.stockName)
+    <br />
+
+    @Html.Label("Stock Amount")
+    @Html.TextBoxFor(x => x.stockAmount, new { @class = "form-control", @type = "number", @min = "0", @required = "required" })
+    @Html.ValidationMessageFor(x => x.stockAmount)
+    <br />
+
+    <button class="btn btn-info">Submit</button>
+</div>
+
+}
+

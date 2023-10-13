@@ -1,0 +1,104 @@
+﻿@model List<EntityLayer.Concrete.Deneme>
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.4.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+<h3>Prescriptions</h3>
+<br />
+<div class="code-cut">
+    @(Html.Grid(Model).Named("Prescriptions").Columns(c =>
+{
+
+    c.Add(model => model.prescriptionID).Titled("Prescription ID").Filterable(true).Sortable(true);
+    c.Add(model => model.medicineName).Titled("Medicine Name").Filterable(true).Sortable(true);
+    c.Add(model => model.useIntr).Titled("Use Instructions").Filterable(true).Sortable(true);
+    c.Add(model => model.duration).Titled("Duration").Filterable(true).Sortable(true);
+    c.Add(model => model.patientPreName).Titled("Patient Prename").Filterable(true).Sortable(true);
+    c.Add(model => model.patientLastName).Titled("Patient Lastname").Filterable(true).Sortable(true);
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Delete", "DeletePrescription", new { id = x.prescriptionID }));
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Update", "UpdatePrescription", new { id = x.prescriptionID }));
+}).WithPaging(10).EmptyText("No data found")
+
+)
+
+    <a href="/AdminPrescription/AddPrescription" class="btn btn-info">Add New Prescription</a>
+    @*</div>
+        <a href="/AdminPrescription/AddPrescription" class="btn btn-info">Add New Prescription</a>
+
+
+
+        <h2>Prescriptions</h2>
+
+        <br />
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Bootstrap 4 Responsive Datatable and Export to PDF, CSV</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+        </head>
+        <body>
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Prescription ID</th>
+                        <th>Medicine Name</th>
+                        <th>Duration</th>
+                        <th>Use Instructions</th>
+                        <th>Patient Prename</th>
+                        <th>Patient Lastname</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.prescriptionID</td>
+                            <td>@x.medicineName</td>
+                            <td>@x.duration</td>
+                            <td>@x.useIntr</td>
+                            <td>@x.patientPreName</td>
+                            <td>@x.patientLastName</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    var table = $('#example').DataTable({
+                        lengthChange: false,
+                        buttons: ['copy', 'excel', 'csv', 'pdf', 'colvis']
+                    });
+
+                    table.buttons().container()
+                        .appendTo('#example_wrapper .col-md-6:eq(0)');
+                });
+            </script>
+        </body>
+        </html>
+
+        <a href="/AdminPrescription/AddPrescription" class="btn btn-info">Add New Prescription</a>*@

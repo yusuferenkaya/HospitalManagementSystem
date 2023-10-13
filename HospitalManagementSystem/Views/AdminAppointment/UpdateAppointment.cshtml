@@ -1,0 +1,26 @@
+﻿@model EntityLayer.Concrete.Appointment
+@{
+    ViewBag.Title = "UpdateAppointment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Appointment Update</h3>
+
+<br />
+
+@using (@Html.BeginForm("UpdateAppointment", "AdminAppointment", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.doctorID)
+    @Html.HiddenFor(x => x.patientID)
+    @Html.HiddenFor(x => x.appointmentID)
+<div class="form-group">
+    @Html.Label("App Date")
+    @Html.TextBoxFor(x => x.appDate, new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd"), @required = "required" })
+    @Html.ValidationMessageFor(x => x.appDate)
+    <br />
+    <button class="btn btn-info">Submit</button>
+</div>
+
+}

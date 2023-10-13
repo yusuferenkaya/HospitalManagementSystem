@@ -1,0 +1,135 @@
+﻿@model EntityLayer.Concrete.Appointment
+@{
+    ViewBag.Title = "MakeAppointment";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<h3>Make an Appointment</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.Label("Department")
+        @Html.DropDownList("Department", (List<SelectListItem>)ViewBag.departmentViewBag, "Select a department", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Doctor")
+        @Html.DropDownList("Doctor", (List<SelectListItem>)ViewBag.doctorViewBag, "Select a doctor", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Date")
+        <input type="date" id="Date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")">
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Appointment Hour")
+        <select id="AppointmentHour" name="AppointmentHour" class="form-control">
+            <option value="">Select an appointment hour</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Make Appointment</button>
+    </div>
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#Department').change(function () {
+                var id = $('#Department').val();
+                $.ajax({
+                    url: '/AdminAppointment/GetDoctors',
+                    data: { p: id },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (data) {
+                        console.log(data);
+                        $('#Doctor').empty();
+                        $('#AppointmentHour').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $('#Doctor').append("<option value='" + data[i].Value + "'>" + data[i].Text + "</Option>");
+                        }
+                    }
+                });
+            });
+        });
+
+        $(function () {
+            $('#Doctor, #Date').change(function () {
+                var doctorId = $('#Doctor').val();
+                var date = $('#Date').val();
+
+                // Clear the existing options in the dropdown list
+                $('#AppointmentHour').empty();
+
+                // Retrieve the available appointment hours for the selected doctor
+                $.ajax({
+                    url: '/AdminAppointment/GetAppointmentHours',
+                    data: { doctorId: doctorId, date: date},
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (appointmentHours) {
+                        console.log(appointmentHours);
+                        // Add the new options to the dropdown list
+                        $.each(appointmentHours, function (i, appointmentHour) {
+                            $('#AppointmentHour').append($('<option></option>').val(appointmentHour.Id).html(appointmentHour.Hour));
+                        });
+                    }
+                });
+            });
+        });
+
+
+        $(function () {
+            // Event handlers for the dropdown lists
+
+            // Event handler for the form's submit event
+            $('form').submit(function (event) {
+                event.preventDefault(); // Prevent the form from being submitted
+
+                // Retrieve the selected values from the dropdown lists
+                var departmentId = $('#Department').val();
+                var doctorId = $('#Doctor').val();
+                var date = $('#Date').val();
+                var appointmentHourId = $('#AppointmentHour').val();
+
+                // Send an AJAX request to the server to add the chosen values to the Appointments table
+                $.ajax({
+                    url: '/AdminAppointment/MakeAppointment',
+                    data: { departmentId: departmentId, doctorId: doctorId, date: date, appointmentHourId: appointmentHourId },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response.success) {
+                            // Display the appointment details in a popup
+                            alert("Your appointment is scheduled for " + response.appointmentDate + " with " + response.doctorName + " in the " + response.department + " department.");
+                            // Reset the dropdown lists
+                            $('#Department').val('');
+                            $('#Doctor').val('');
+                            $('#Date').val('');
+                            $('#AppointmentHour').val('');
+                        } else {
+                            // Display an error message
+                            alert("There was an error scheduling the appointment. Please try again.");
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+
+
+

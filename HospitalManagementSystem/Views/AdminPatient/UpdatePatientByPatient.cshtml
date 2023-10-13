@@ -1,0 +1,35 @@
+﻿@model EntityLayer.Concrete.Patient
+@{
+    ViewBag.Title = "UpdatePatientByPatient";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h1>Update Info</h1>
+
+<br />
+
+@using (@Html.BeginForm("UpdatePatientByPatient", "AdminPatient", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.patientID)
+<div class="form-group">
+    @Html.Label("Pre Name")
+    @Html.TextBoxFor(x => x.patientPreName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Pre name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.patientPreName)
+
+    @Html.Label("Last Name")
+    @Html.TextBoxFor(x => x.patientLastName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Last Name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.patientLastName)
+    <br />
+    @Html.Label("Birth Date")
+    @Html.TextBoxFor(x => x.patientBirthDate, new { @class = "form-control", @required = "required" })
+    @Html.ValidationMessageFor(x => x.patientBirthDate)
+    <br />
+
+    <button class="btn btn-info">Submit</button>
+</div>
+
+}
+

@@ -1,0 +1,50 @@
+﻿@model EntityLayer.Concrete.AnnualLeave
+@{
+    ViewBag.Title = "AddAnnualLeave";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+@if (User.IsInRole("2"))
+{
+    <h3>Take an Annual Leave</h3>
+
+    <br />
+
+    using (@Html.BeginForm("DoctorAnnualLeave", "AdminAnnualLeave", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.Label("Start Date")
+            @Html.TextBoxFor(x => x.startDate, new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd"), @required = "required" })
+            @Html.ValidationMessageFor(x => x.startDate)
+            <br />
+
+            @Html.Label("Finish Date")
+            @Html.TextBoxFor(x => x.finishDate, new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd"), @required = "required" })
+            @Html.ValidationMessageFor(x => x.finishDate)
+            <br />
+
+            <div id="finish-date-error" class="text-danger" style="display:none;">Start date must be earlier than end date</div>
+
+            <button class="btn btn-info" id="submit-button">Submit</button>
+        </div>
+    }
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('#submit-button').click(function (e) {
+            var startDate = $('#startDate').val();
+            var finishDate = $('#finishDate').val();
+
+            if (finishDate <= startDate) {
+                e.preventDefault();
+                $('#finish-date-error').show();
+            }
+        });
+    });
+</script>

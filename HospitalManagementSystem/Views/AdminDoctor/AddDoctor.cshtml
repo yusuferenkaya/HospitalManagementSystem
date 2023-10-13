@@ -1,0 +1,96 @@
+﻿@model EntityLayer.Concrete.Doctor
+@{
+    ViewBag.Title = "AddDoctor";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Add New Doctor</h3>
+
+<br />
+
+@using (@Html.BeginForm("AddDoctor", "AdminDoctor", FormMethod.Post))
+{
+
+<form onsubmit="return validateForm()">
+    @Html.Label("Pre Name")
+    @Html.TextBoxFor(x => x.doctorPreName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Pre name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.doctorPreName)
+
+    @Html.Label("Last Name")
+    @Html.TextBoxFor(x => x.doctorLastName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Last Name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.doctorLastName)
+    <br />
+    @Html.Label("Salary")
+    @Html.TextBoxFor(x => x.salary, new { @class = "form-control", @type = "number", @min = "0", @required = "required" })
+    @Html.ValidationMessageFor(x => x.salary)
+    <br />
+    @Html.Label("Birth Date")
+    @Html.TextBoxFor(x => x.birthDate, new { type = "date", @required = "required" })
+    @Html.ValidationMessageFor(x => x.birthDate)
+
+
+    <br />
+    <label for="doctorPhoneNo">Phone Number:</label><br>
+    <input type="tel" name="doctorPhoneNo" id="doctorPhoneNo" title="Please enter a number in the format 555-555-5555" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required
+           oninput="addDashes(this)"><br>
+    <label for="socSecNo">Social Security Number:</label><br>
+    <input type="text" name="socSecNo" id="socSecNo" title="The social security number must be 9 digits! Please enter a 9 digit number." pattern="[0-9]{9}" required><br>
+    <label for="doctorEmail">Email:</label><br>
+    <input type="email" name="doctorEmail" id="doctorEmail" required><br>
+    <br />
+
+    @Html.Label("Department")
+    @Html.DropDownListFor(x => x.departmentID, (List<SelectListItem>)ViewBag.departmentViewBag, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.departmentID)
+    <br />
+
+    <button class="btn btn-info">Submit</button>
+</form>
+
+}
+
+<script>
+function addDashes(input) {
+  var value = input.value.replace(/-/g, '');
+  if (value.length > 2) {
+    value = value.slice(0, 3) + '-' + value.slice(3);
+  }
+  if (value.length > 6) {
+    value = value.slice(0, 7) + '-' + value.slice(7);
+  }
+  input.value = value;
+}
+
+function validateForm() {
+    var doctorPhoneNo = document.getElementById('doctorPhoneNo').value;
+    if (doctorPhoneNo == '') {
+    alert('Telefon numarası alanı boş bırakılamaz!');
+    return false;
+  }
+    if (!/^\d{3}-\d{3}-\d{4}$/.test(doctorPhoneNo)) {
+        alert('Phone number format is not correct! Please enter a number in the format 555-555-5555.');
+    return false;
+  }
+    var socSecNo = document.getElementById('socSecNo').value;
+    if (socSecNo == '') {
+        alert('Social security number field cannot be left blank!');
+    return false;
+  }
+    if (!/^\d{9}$/.test(socSecNo)) {
+        alert('The social security number must be 9 digits! Please enter a 9 digit number.');
+    return false;
+
+    }
+    var email = document.getElementById("doctorEmail").value;
+                var lblError = document.getElementById("lblError");
+                lblError.innerHTML = "";
+                var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                if (!expr.test(email)) {
+                    lblError.innerHTML = "Invalid email address.";
+                }
+  return true;
+}
+
+</script>

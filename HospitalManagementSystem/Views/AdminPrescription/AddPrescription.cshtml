@@ -1,0 +1,38 @@
+﻿@model EntityLayer.Concrete.Prescription
+@{
+    ViewBag.Title = "AddPrescription";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>My Prescriptions</h3>
+
+<br />
+
+@using (@Html.BeginForm("AddPrescription", "AdminPrescription", FormMethod.Post))
+{
+<div class="form-group">
+    @Html.Label("Patient")
+    @Html.DropDownListFor(x => x.appointmentID, (List<SelectListItem>)ViewBag.appointmentViewBag, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.appointmentID)
+    <br />
+
+    @Html.Label("Medicine Name")
+    @Html.TextBoxFor(x => x.medicineName, new { @class = "form-control", @required = "required" })
+    @Html.ValidationMessageFor(x => x.medicineName)
+    <br />
+
+    @Html.Label("Use Instructions")
+    @Html.TextBoxFor(x => x.useIntr, new { @class = "form-control" , @required = "required" })
+    @Html.ValidationMessageFor(x => x.useIntr)
+    <br />
+
+    @Html.Label("Duration")
+    @Html.TextBoxFor(x => x.duration, new { @class = "form-control",@type = "number", @min = "0", @required = "required" })
+    @Html.ValidationMessageFor(x => x.duration)
+    <br />
+    <button class="btn btn-info">Submit</button>
+</div>
+
+}

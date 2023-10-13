@@ -1,0 +1,33 @@
+﻿@model List<EntityLayer.Concrete.User>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "IndexInTableFormat";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.4.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+<br />
+<div class="code-cut">
+    @(Html.Grid(Model).Named("Users").Columns(c =>
+{
+
+    c.Add(model => model.userID).Titled("User ID").Filterable(true).Sortable(true);
+    c.Add(model => model.userPreName).Titled("Prename").Filterable(true).Sortable(true);
+    c.Add(model => model.userLastName).Titled("Lastname").Filterable(true).Sortable(true);
+    c.Add(model => model.userEmail).Titled("Email").Filterable(true).Sortable(true);
+    c.Add(model => model.userPassword).Titled("Password").Filterable(true).Sortable(true);
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Delete", "DeletePatient", new { id = x.userID }));
+    c.Add().Encoded(false).Sanitized(false).SetWidth(30).RenderValueAs(x => Html.ActionLink("Update", "UpdatePatient", new { id = x.userID }));
+}).WithPaging(10).EmptyText("No data found")
+
+)
+</div>
+
+
+
+

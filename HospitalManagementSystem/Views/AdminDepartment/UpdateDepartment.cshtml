@@ -1,0 +1,25 @@
+﻿@model EntityLayer.Concrete.Department
+@{
+    ViewBag.Title = "UpdateDepartment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h3>Update Department</h3>
+
+@using (Html.BeginForm("UpdateDepartment", "AdminDepartment", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(x => x.departmentID)
+<div class="form-group">
+    @Html.Label("Departemtn Name")
+    @Html.TextBoxFor(x => x.departmentName, new { @class = "form-control", pattern = @"^[a-zA-ZğüışöçĞÜİŞÖÇ]+$", title = "Department Name can only contain letters", @required = "required" })
+    @Html.ValidationMessageFor(x => x.departmentName)
+    <br />
+    @Html.Label("Department Location")
+    @Html.TextBoxFor(x => x.locationAdress, new { @class = "form-control", @required = "required" })
+    @Html.ValidationMessageFor(x => x.locationAdress)
+    <br />
+    <button class="btn btn-success">Update</button>
+</div>
+}

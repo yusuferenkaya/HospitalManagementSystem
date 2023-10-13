@@ -1,0 +1,25 @@
+﻿@model EntityLayer.Concrete.AppointmentHour
+@{
+    ViewBag.Title = "AddAppointmentHour";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+<h3>Add Appointment Hour</h3>
+
+<br />
+
+@using (@Html.BeginForm("AddAppointmentHour", "AppointmentHour", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group">
+
+        @Html.Label("Appointment Hour")
+        @Html.TextBoxFor(x => x.Hour, new { @class = "form-control", @required = "required" })
+        @Html.ValidationMessageFor(x => x.Hour)
+        <br />
+        <button class="btn btn-info">Submit</button>
+    </div>
+
+}
